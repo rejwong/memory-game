@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   // Variables
   const deck = document.querySelector('.deck');
   const moves = document.querySelector('.moves');
-  const cards = document.querySelectorAll('.card');
+  const cards = [...(document.querySelectorAll('.card'))];
 
   let matched = 0;
   let numberOfMoves = 0;
@@ -44,17 +44,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
     return array;
   }
 
-  // get cards and remove them from the deck
-  function getCards(){
-    let cards = [];
-    for(let card of (document.querySelectorAll('.card'))) {
-      cards.push(deck.removeChild(card));
-    };
-    return cards;
-  };
-
   function randomiseCards(){
-    let randomCards = shuffle(getCards());
+    // TODO: remove this as they will be generated
+    for(let card of cards) {
+      deck.removeChild(card);
+    };
+
+    let randomCards = shuffle(cards);
     for(let card of randomCards) {
       deck.appendChild(card);
     }
@@ -86,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     moves.textContent = numberOfMoves;
   }
 
+  // TODO: getter and setter
   function updateMoves() {
     numberOfMoves ++;
     moves.textContent = numberOfMoves;
@@ -142,15 +139,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   // -------------------------------------------------
 
-  randomiseCards();
+  // randomiseCards();
 
   // restart button
   initRestart();
 
   // Bind show card
   initShowCard();
-
-  // check cards
 
   // start a new game
   restartGame();
