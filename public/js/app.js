@@ -92,9 +92,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
     for( let opened of currentlyOpen) {
       opened.classList.add('match');
     }
+    clearOpened();
     updateMatched();
     updateMoves();
-    clearCards();
   }
 
   function clearOpened() {
