@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   // Variables
   const deck = document.querySelector('.deck');
+  const cards = document.querySelectorAll('.card');
   let score = 0;
 
   let currentlyOpen = [];
@@ -58,8 +59,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   function initRestart() {
     let resetButton = document.querySelector('.restart');
-    resetButton.onclick = () => randomiseCards();
-    score = 0;
+    resetButton.addEventListener('click', () => {
+      randomiseCards();
+      score = 0;
+    })
     // console.log(resetButton);
     // TODO: reset show on all cards
     // reset open array
@@ -83,6 +86,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   function checkCards() {
     if(currentlyOpen.length === 2){
+
+      // added timeout as card are hidden too fast
       setTimeout(()=>{
         if(currentlyOpen[0].dataset.cardType === currentlyOpen[1].dataset.cardType) {
           cardsMatched();
@@ -91,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           clearCards();
           return;
         }
-      }, 1200);
+      }, 750);
 
     } else {
       return;
