@@ -13,10 +13,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
   const moves = document.querySelector('.moves');
   const complete = document.querySelector('.complete');
   const cards = [...(document.querySelectorAll('.card'))];
+  const stars = document.querySelector('.stars');
+  const templateStar = document.querySelector('.template-star');
+
+  console.log(templateStar);
 
   let matched = 0;
   let numberOfMoves = 0;
   let currentlyOpened = [];
+  let numberOfStars = 3;
 
   /*
   * / Create a list that holds all of your cards
@@ -66,6 +71,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     matched = 0;
     clearMoves();
     randomiseCards();
+    resetStars();
+    renderStars();
   }
 
   function initRestart() {
@@ -75,6 +82,39 @@ document.addEventListener("DOMContentLoaded", function(event) {
         restartGame();
       })
     }
+  }
+
+  function resetStars() {
+    numberOfStars = 3;
+  }
+
+  function clearStars() {
+    let allStars = document.querySelectorAll('.template-star');
+    for(let star of allStars) {
+      star.remove();
+    }
+  }
+
+  function renderStars() {
+    clearStars();
+    let i = numberOfStars;
+    while(i != 0) {
+      stars.appendChild(templateStar.cloneNode(true));
+      i--;
+    }
+  }
+
+  function updateStars() {
+    console.log('cal stars');
+    if(numberOfMoves <= 3) {
+      numberOfStars = 3;
+    } else if(numberOfMoves <= 6 && numberOfMoves >3){
+      numberOfStars = 2;
+    }else if(numberOfMoves <= 9 && numberOfMoves > 6){
+      numberOfStars = 1;
+    }
+    renderStars();
+    // console.log(numberOfStars);
   }
 
   function updateMatched() {
@@ -130,6 +170,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   function checkCards() {
     if(currentlyOpened.length === 2){
       updateMoves();
+      updateStars();
       // added timeout as card are hidden too fast
       setTimeout(()=>{
         if(currentlyOpened[0].dataset.cardType === currentlyOpened[1].dataset.cardType) {
