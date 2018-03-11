@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           cardsMatched();
           return;
         } else {
-          clearCards();
+          clearOpened();
           return;
         }
       }, 500);
