@@ -1,15 +1,18 @@
 'use strict';
-
-
-
-// toggle card
-
-// check cards
-
 document.addEventListener("DOMContentLoaded", function(event) {
   console.log("DOM fully loaded and parsed");
 
-  let deck = document.querySelector('.deck');
+  // IF IE 11 use msMatchesSelector instead of Element.matches
+  // Used for event delegation
+  if (!Element.prototype.matches) {
+    Element.prototype.matches = Element.prototype.msMatchesSelector;
+  }
+
+  // Variables
+  const deck = document.querySelector('.deck');
+  let score = 0;
+
+  let currentlyOpen = [];
 
   /*
   * Create a list that holds all of your cards
@@ -40,11 +43,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   // get cards and remove them from the deck
   function getCards(){
     let cards = [];
-
     for(let card of (document.querySelectorAll('.card'))) {
       cards.push(deck.removeChild(card));
     };
-
     return cards;
   };
 
@@ -58,9 +59,60 @@ document.addEventListener("DOMContentLoaded", function(event) {
   function initRestart() {
     let resetButton = document.querySelector('.restart');
     resetButton.onclick = () => randomiseCards();
+    score = 0;
     // console.log(resetButton);
     // TODO: reset show on all cards
+    // reset open array
   }
+
+  function cardsMatched() {
+    for( let opened of currentlyOpen) {
+      opened.classList.add('match');
+    }
+    score ++;
+    console.log(score);
+    clearCards();
+  }
+
+  function clearCards() {
+    for( let opened of currentlyOpen) {
+      opened.classList.remove('open', 'show');
+    }
+    currentlyOpen = [];
+  }
+
+  function checkCards() {
+    if(currentlyOpen.length === 2){
+      setTimeout(()=>{
+        if(currentlyOpen[0].dataset.cardType === currentlyOpen[1].dataset.cardType) {
+          cardsMatched();
+          return;
+        } else {
+          clearCards();
+          return;
+        }
+      }, 1200);
+
+    } else {
+      return;
+    }
+  }
+
+  function initShowCard() {
+    deck.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(e.target.matches('.card')){
+        // TODO: check it is not an open card
+        e.target.classList.add('open', 'show');
+        currentlyOpen.push(e.target);
+        checkCards();
+      } else {
+        return;
+      }
+    }, false);
+  }
+
+  // -------------------------------------------------
 
   randomiseCards();
   console.log('cards shuffled');
@@ -69,9 +121,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
   initRestart();
   console.log('restart button added');
 
+  // Bind show card
+  initShowCard();
 
+  // check cards
 
-
+  // END document ready
 });
 
 
