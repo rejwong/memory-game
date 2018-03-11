@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   let matched = 0;
   let numberOfMoves = 0;
-  let currentlyOpen = [];
+  let currentlyOpened = [];
 
   /*
   * Create a list that holds all of your cards
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   function cardsMatched() {
-    for( let opened of currentlyOpen) {
+    for( let opened of currentlyOpened) {
       opened.classList.add('match');
     }
     clearOpened();
@@ -97,19 +97,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
     updateMoves();
   }
 
+  function updateOpenedList(currentCard) {
+    currentCard.classList.add('open', 'show');
+    currentlyOpened.push(currentCard);
+  }
+
   function clearOpened() {
-    for( let opened of currentlyOpen) {
+    for( let opened of currentlyOpened) {
       opened.classList.remove('open', 'show');
     }
-    currentlyOpen = [];
+    currentlyOpened = [];
   }
 
   function checkCards() {
-    if(currentlyOpen.length === 2){
+    if(currentlyOpened.length === 2){
       updateMoves();
       // added timeout as card are hidden too fast
       setTimeout(()=>{
-        if(currentlyOpen[0].dataset.cardType === currentlyOpen[1].dataset.cardType) {
+        if(currentlyOpened[0].dataset.cardType === currentlyOpened[1].dataset.cardType) {
           cardsMatched();
           return;
         } else {
@@ -127,9 +132,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     deck.addEventListener('click', function(e){
       e.stopPropagation();
       if(e.target.matches('.card')){
-        // TODO: check it is not an open card
-        e.target.classList.add('open', 'show');
-        currentlyOpen.push(e.target);
+        let thisCard = e.target;
+        updateOpenedList(thisCard);
         checkCards();
       } else {
         return;
@@ -155,12 +159,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 /*
-* set up the event listener for a card. If a card is clicked:
-*  - display the card's symbol (put this functionality in another function that you call from this one)
-*  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
-*  - if the list already has another card, check to see if the two cards match
-*    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
-*    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
-*    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+* /set up the event listener for a card. If a card is clicked:
+*  /- display the card's symbol (put this functionality in another function that you call from this one)
+*  /- add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+*  /- if the list already has another card, check to see if the two cards match
+*    /+ if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+*    /+ if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
+*    /+ increment the move counter and display it on the page (put this functionality in another function that you call from this one)
 *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
 */
