@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   // Variables
   const deck = document.querySelector('.deck');
   const moves = document.querySelector('.moves');
+  const complete = document.querySelector('.complete');
   const cards = [...(document.querySelectorAll('.card'))];
 
   let matched = 0;
@@ -18,12 +19,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
   let currentlyOpened = [];
 
   /*
-  * Create a list that holds all of your cards
+  * / Create a list that holds all of your cards
   */
 
   /*
   * Display the cards on the page
-  *   - shuffle the list of cards using the provided "shuffle" method below
+  *   /- shuffle the list of cards using the provided "shuffle" method below
   *   - loop through each card and create its HTML
   *   - add each card's HTML to the page
   */
@@ -60,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     for( let card of cards) {
       card.classList.remove('open', 'match', 'show');
     }
+    complete.classList.toggle('show');
     clearOpened();
     matched = 0;
     clearMoves();
@@ -67,13 +69,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   function initRestart() {
-    let resetButton = document.querySelector('.restart');
-    resetButton.addEventListener('click', () => {
-      restartGame();
-    })
+    let resetButtons = document.querySelectorAll('.restart');
+    for(let button of resetButtons){
+      button.addEventListener('click', () => {
+        restartGame();
+      })
+    }
   }
 
   function updateMatched() {
+    matched ++;
     // TODO: getter and setter
   }
 
@@ -88,18 +93,31 @@ document.addEventListener("DOMContentLoaded", function(event) {
     moves.textContent = numberOfMoves;
   }
 
+  function finishGame(){
+    complete.classList.toggle('show');
+  }
+
+  function checkEnd() {
+    if(matched === 8){
+      finishGame();
+    } else {
+      return;
+    }
+  }
+
   function cardsMatched() {
     for( let opened of currentlyOpened) {
       opened.classList.add('match');
     }
     clearOpened();
     updateMatched();
-    updateMoves();
+    checkEnd();
   }
 
   function updateOpenedList(currentCard) {
     currentCard.classList.add('open', 'show');
     currentlyOpened.push(currentCard);
+    return;
   }
 
   function clearOpened() {
@@ -143,8 +161,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   // -------------------------------------------------
 
-  // randomiseCards();
-
   // restart button
   initRestart();
 
@@ -153,6 +169,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   // start a new game
   restartGame();
+
 
   // END document ready
 });

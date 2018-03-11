@@ -108,3 +108,11 @@ h1 {
     cursor: pointer;
     padding: 8px;
 }
+
+.complete {
+  display: none;
+}
+
+.complete.show {
+  display: block;
+}
