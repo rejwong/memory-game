@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   // Variables
   const deck = document.querySelector('.deck');
-  const cards = document.querySelectorAll('.card');
+  let cards = document.querySelectorAll('.card');
   let score = 0;
 
   let currentlyOpen = [];
@@ -59,6 +59,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   function restartGame(){
     randomiseCards();
+    clearCards();
+    for( let card of cards) {
+      card.classList.remove('open', 'match', 'show');
+    }
     score = 0;
   }
 
@@ -67,7 +71,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     resetButton.addEventListener('click', () => {
       restartGame();
     })
-    // console.log(resetButton);
     // TODO: reset show on all cards
     // reset open array
   }
@@ -90,7 +93,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   function checkCards() {
     if(currentlyOpen.length === 2){
-
       // added timeout as card are hidden too fast
       setTimeout(()=>{
         if(currentlyOpen[0].dataset.cardType === currentlyOpen[1].dataset.cardType) {
@@ -100,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           clearCards();
           return;
         }
-      }, 750);
+      }, 500);
 
     } else {
       return;
