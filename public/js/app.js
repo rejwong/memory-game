@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   let matched = 0;
   let numberOfMoves = 0;
-
   let currentlyOpen = [];
 
   /*
@@ -51,19 +50,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
     };
 
     let randomCards = shuffle(cards);
+
     for(let card of randomCards) {
       deck.appendChild(card);
     }
   }
 
   function restartGame(){
-    randomiseCards();
-    clearCards();
     for( let card of cards) {
       card.classList.remove('open', 'match', 'show');
     }
+    clearOpened();
     matched = 0;
     clearMoves();
+    randomiseCards();
   }
 
   function initRestart() {
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     clearCards();
   }
 
-  function clearCards() {
+  function clearOpened() {
     for( let opened of currentlyOpen) {
       opened.classList.remove('open', 'show');
     }
