@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   // Variables
   const deck = document.querySelector('.deck');
   let cards = document.querySelectorAll('.card');
-  let score = 0;
+  let matched = 0;
 
   let currentlyOpen = [];
 
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     for( let card of cards) {
       card.classList.remove('open', 'match', 'show');
     }
-    score = 0;
+    matched = 0;
   }
 
   function initRestart() {
@@ -71,15 +71,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
     resetButton.addEventListener('click', () => {
       restartGame();
     })
-    // TODO: reset show on all cards
-    // reset open array
+  }
+
+  function updateMatched() {
+    // TODO: getter and setter
+  }
+
+  function updateMoves() {
+    // TODO: track number of moves
   }
 
   function cardsMatched() {
     for( let opened of currentlyOpen) {
       opened.classList.add('match');
     }
-    score ++;
+    updateMatched();
+    updateMoves();
     console.log(score);
     clearCards();
   }
