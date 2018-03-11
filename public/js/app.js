@@ -56,21 +56,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 
-
-
-
-
-
-// console.log('original');
-// console.log(cards);
-// var ramdomList = shuffle(cards);
-// console.log('randomised');
-// console.log(ramdomList);
-
-
-
-
-
 /*
 * set up the event listener for a card. If a card is clicked:
 *  - display the card's symbol (put this functionality in another function that you call from this one)
