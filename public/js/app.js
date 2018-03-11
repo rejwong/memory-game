@@ -57,11 +57,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
   }
 
+  function restartGame(){
+    randomiseCards();
+    score = 0;
+  }
+
   function initRestart() {
     let resetButton = document.querySelector('.restart');
     resetButton.addEventListener('click', () => {
-      randomiseCards();
-      score = 0;
+      restartGame();
     })
     // console.log(resetButton);
     // TODO: reset show on all cards
