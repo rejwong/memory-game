@@ -1,56 +1,75 @@
 'use strict';
 
-/*
-* Create a list that holds all of your cards
-*/
 
-/*
-* Display the cards on the page
-*   - shuffle the list of cards using the provided "shuffle" method below
-*   - loop through each card and create its HTML
-*   - add each card's HTML to the page
-*/
 
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-  let currentIndex = array.length, temporaryValue, randomIndex;
+// toggle card
 
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
-}
-
-// get cards and remove them from the deck
-function getCards(parentNode){
-  let cards = [];
-
-  for(let card of (document.querySelectorAll('.card'))) {
-    cards.push(parentNode.removeChild(card));
-  };
-
-  return cards;
-};
-
-function randomiseCards(parentNode){
-  let randomCards = shuffle(getCards(parentNode));
-  for(let card of randomCards) {
-    parentNode.appendChild(card);
-  }
-}
+// check cards
 
 document.addEventListener("DOMContentLoaded", function(event) {
   console.log("DOM fully loaded and parsed");
 
   let deck = document.querySelector('.deck');
 
-  randomiseCards(deck);
+  /*
+  * Create a list that holds all of your cards
+  */
+
+  /*
+  * Display the cards on the page
+  *   - shuffle the list of cards using the provided "shuffle" method below
+  *   - loop through each card and create its HTML
+  *   - add each card's HTML to the page
+  */
+
+  // Shuffle function from http://stackoverflow.com/a/2450976
+  function shuffle(array) {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  }
+
+  // get cards and remove them from the deck
+  function getCards(){
+    let cards = [];
+
+    for(let card of (document.querySelectorAll('.card'))) {
+      cards.push(deck.removeChild(card));
+    };
+
+    return cards;
+  };
+
+  function randomiseCards(){
+    let randomCards = shuffle(getCards());
+    for(let card of randomCards) {
+      deck.appendChild(card);
+    }
+  }
+
+  function initRestart() {
+    let resetButton = document.querySelector('.restart');
+    resetButton.onclick = () => randomiseCards();
+    // console.log(resetButton);
+    // TODO: reset show on all cards
+  }
+
+  randomiseCards();
   console.log('cards shuffled');
+
+  // restart button
+  initRestart();
+  console.log('restart button added');
+
+
 
 
 });
