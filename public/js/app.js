@@ -1,27 +1,26 @@
 'use strict';
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM fully loaded and parsed");
 
   // IF IE 11 use msMatchesSelector instead of Element.matches
   // Used for event delegation
-  if (!Element.prototype.matches) {
-    Element.prototype.matches = Element.prototype.msMatchesSelector;
-  }
+  // if (!Element.prototype.matches) {
+  //   Element.prototype.matches = Element.prototype.msMatchesSelector;
+  // }
+  // use is type and has class
 
   // Variables
   const deck = document.querySelector('.deck');
-  const moves = document.querySelector('.moves');
-  const complete = document.querySelector('.complete');
   const cards = [...(document.querySelectorAll('.card'))];
-  const stars = document.querySelector('.stars');
-  const templateStar = document.querySelector('.template-star');
+  // const moves = document.querySelector('.moves');
+  // const complete = document.querySelector('.complete');
+  // const stars = document.querySelector('.stars');
+  // const templateStar = document.querySelector('.template-star');
 
-  console.log(templateStar);
-
-  let matched = 0;
-  let numberOfMoves = 0;
-  let currentlyOpened = [];
-  let numberOfStars = 3;
+  // let matched = 0;
+  // let numberOfMoves = 0;
+  // let currentlyOpened = [];
+  // let numberOfStars = 3;
 
   /*
   * / Create a list that holds all of your cards
@@ -50,142 +49,165 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   function randomiseCards(){
-    // TODO: remove this as they will be generated
-    for(let card of cards) {
-      deck.removeChild(card);
-    };
-
+    let newDeck = document.createDocumentFragment();
     let randomCards = shuffle(cards);
+    // TODO: remove deck from DOM
+    // GET Cards and randomise
+    // Append new order to deck
+    // append deck
 
+    // Seems appendChild moves the DOM elements to the fragment
     for(let card of randomCards) {
-      deck.appendChild(card);
+      newDeck.appendChild(card);
     }
+
+    deck.appendChild(newDeck);
+    console.log(newDeck);
   }
 
   function restartGame(){
     for( let card of cards) {
       card.classList.remove('open', 'match', 'show');
     }
-    complete.classList.toggle('show');
-    clearOpened();
-    matched = 0;
-    clearMoves();
     randomiseCards();
-    resetStars();
-    renderStars();
+    console.log('Game restarted!');
+    // complete.classList.toggle('show');
+    // clearOpened();
+    // matched = 0;
+    // clearMoves();
+    // randomiseCards();
+    // resetStars();
+    // renderStars();
   }
 
-  function initRestart() {
+  function createResetButton() {
     let resetButtons = document.querySelectorAll('.restart');
     for(let button of resetButtons){
-      button.addEventListener('click', () => {
-        restartGame();
-      })
+      button.addEventListener('click', restartGame)
     }
   }
 
-  function resetStars() {
-    numberOfStars = 3;
-  }
-
-  function clearStars() {
-    let allStars = document.querySelectorAll('.template-star');
-    for(let star of allStars) {
-      star.remove();
-    }
-  }
-
-  function renderStars() {
-    clearStars();
-    let i = numberOfStars;
-    while(i != 0) {
-      stars.appendChild(templateStar.cloneNode(true));
-      i--;
-    }
-  }
-
-  function updateStars() {
-    console.log('cal stars');
-    if(numberOfMoves <= 3) {
-      numberOfStars = 3;
-    } else if(numberOfMoves <= 6 && numberOfMoves >3){
-      numberOfStars = 2;
-    }else if(numberOfMoves <= 9 && numberOfMoves > 6){
-      numberOfStars = 1;
-    }
-    renderStars();
-    // console.log(numberOfStars);
-  }
-
-  function updateMatched() {
-    matched ++;
-    // TODO: getter and setter
-  }
-
-  function clearMoves() {
-    numberOfMoves = 0;
-    moves.textContent = numberOfMoves;
-  }
-
-  // TODO: getter and setter
-  function updateMoves() {
-    numberOfMoves ++;
-    moves.textContent = numberOfMoves;
-  }
-
-  function finishGame(){
-    complete.classList.toggle('show');
-  }
-
-  function checkEnd() {
-    if(matched === 8){
-      finishGame();
+  function showCard(e) {
+    e.stopPropagation();
+    console.log('in show card');
+    console.log(e);
+    if(e.target.matches('.card')){
+      let thisCard = e.target;
+      console.log(thisCard);
+      // updateOpenedList(thisCard);
+      // checkCards();
     } else {
       return;
     }
   }
 
-  function cardsMatched() {
-    for( let opened of currentlyOpened) {
-      opened.classList.add('match');
-    }
-    clearOpened();
-    updateMatched();
-    checkEnd();
+  function setupCardToggle() {
+    var testVar1 = "hello I am still here";
+    deck.addEventListener('click', showCard);
   }
 
-  function updateOpenedList(currentCard) {
-    currentCard.classList.add('open', 'show');
-    currentlyOpened.push(currentCard);
-    return;
-  }
+  // function resetStars() {
+  //   numberOfStars = 3;
+  // }
 
-  function clearOpened() {
-    for( let opened of currentlyOpened) {
-      opened.classList.remove('open', 'show');
-    }
-    currentlyOpened = [];
-  }
+  // function clearStars() {
+  //   let allStars = document.querySelectorAll('.template-star');
+  //   for(let star of allStars) {
+  //     star.remove();
+  //   }
+  // }
 
-  function checkCards() {
-    if(currentlyOpened.length === 2){
-      updateMoves();
-      updateStars();
-      // added timeout as card are hidden too fast
-      setTimeout(()=>{
-        if(currentlyOpened[0].dataset.cardType === currentlyOpened[1].dataset.cardType) {
-          cardsMatched();
-          return;
-        } else {
-          clearOpened();
-          return;
-        }
-      }, 500);
+  // function renderStars() {
+  //   clearStars();
+  //   let i = numberOfStars;
+  //   while(i != 0) {
+  //     stars.appendChild(templateStar.cloneNode(true));
+  //     i--;
+  //   }
+  // }
 
-    } else {
-      return;
-    }
-  }
+  // function updateStars() {
+  //   console.log('cal stars');
+  //   if(numberOfMoves <= 3) {
+  //     numberOfStars = 3;
+  //   } else if(numberOfMoves <= 6 && numberOfMoves > 3){
+  //     numberOfStars = 2;
+  //   }else if(numberOfMoves <= 9 && numberOfMoves > 6){
+  //     numberOfStars = 1;
+  //   }
+  //   renderStars();
+  //   // console.log(numberOfStars);
+  // }
+
+  // function updateMatched() {
+  //   matched ++;
+  //   // TODO: getter and setter
+  // }
+
+  // function clearMoves() {
+  //   numberOfMoves = 0;
+  //   moves.textContent = numberOfMoves;
+  // }
+
+  // // TODO: getter and setter
+  // function updateMoves() {
+  //   numberOfMoves ++;
+  //   moves.textContent = numberOfMoves;
+  // }
+
+  // function finishGame(){
+  //   complete.classList.toggle('show');
+  // }
+
+  // function checkEnd() {
+  //   if(matched === 8){
+  //     finishGame();
+  //   } else {
+  //     return;
+  //   }
+  // }
+
+  // function cardsMatched() {
+  //   for( let opened of currentlyOpened) {
+  //     opened.classList.add('match');
+  //   }
+  //   clearOpened();
+  //   updateMatched();
+  //   checkEnd();
+  // }
+
+  // function updateOpenedList(currentCard) {
+  //   currentCard.classList.add('open', 'show');
+  //   currentlyOpened.push(currentCard);
+  //   return;
+  // }
+
+  // function clearOpened() {
+  //   for( let opened of currentlyOpened) {
+  //     opened.classList.remove('open', 'show');
+  //   }
+  //   currentlyOpened = [];
+  // }
+
+  // function checkCards() {
+  //   if(currentlyOpened.length === 2){
+  //     updateMoves();
+  //     updateStars();
+  //     // added timeout as cards are hidden too fast
+  //     setTimeout(()=>{
+  //       if(currentlyOpened[0].dataset.cardType === currentlyOpened[1].dataset.cardType) {
+  //         cardsMatched();
+  //         return;
+  //       } else {
+  //         clearOpened();
+  //         return;
+  //       }
+  //     }, 500);
+
+  //   } else {
+  //     return;
+  //   }
+  // }
 
   function initShowCard() {
     deck.addEventListener('click', function(e){
@@ -202,19 +224,40 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   // -------------------------------------------------
 
-  // restart button
-  initRestart();
+  createResetButton();
+  setupCardToggle();
+
+  restartGame();
 
   // Bind show card
-  initShowCard();
+  // initShowCard();
 
   // start a new game
-  restartGame();
+  // restartGame();
 
 
   // END document ready
 });
 
+/*
+  Check List
+  ==========
+  - create card template
+  - shuffle cards
+  - reset button
+  - move counter
+  - show cards - add event listener
+  - manage open cards - max 2
+  - compare/ test cards
+  - match card state
+  - track move counter
+  - update stars
+  - reset stars
+  - track score
+  - display mesage when complete
+  - track time to complete and return total time on completion
+  - congrat modal
+*/
 
 /*
 * /set up the event listener for a card. If a card is clicked:
