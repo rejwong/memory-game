@@ -11,7 +11,7 @@ html {
 html,
 body {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     margin: 0;
     padding: 0;
 }
@@ -19,6 +19,11 @@ body {
 body {
     background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
     font-family: 'Coda', cursive;
+}
+
+.main {
+  position: relative;
+  height: 100%;
 }
 
 .container {
@@ -63,6 +68,9 @@ h1 {
     justify-content: center;
     align-items: center;
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+
+    /* for testing */
+    /* font-size: 33px; */
 }
 
 .deck .card.open {
@@ -111,6 +119,26 @@ h1 {
 
 .complete {
   display: none;
+  z-index: 1000;
+  background-color: #fff;
+  padding: 2rem 5rem;
+  position: absolute;
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+  background: #ffffff url(../img/geometry2.png);
+}
+.complete-button {
+  padding: 1rem;
+  background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
 }
 
 .complete.show {
