@@ -9,12 +9,15 @@ function prepareGame() {
   const completeModal = document.querySelector('.complete');
   const scorePanel = document.querySelector('.score-panel');
   const stars = document.querySelector('.stars');
-  // const templateStar = document.querySelector('.template-star');
+  const stopWatch = document.querySelector('.timer');
+  const timeTaken = document.querySelector('.time-taken');
 
   let matched = 0;
   let numberOfMoves = 0;
   let currentlyOpened = [];
   let numberOfStars = 3;
+  let timer;
+  let time = `0:00`;
 
 
   // Manage game and randomising
@@ -64,6 +67,9 @@ function prepareGame() {
     clearStars();
     startGame();
 
+    clearTimer();
+    createTimer();
+
     console.log('Game restarted!');
   }
 
@@ -74,8 +80,8 @@ function prepareGame() {
     }
   }
 
-// Manage Moves
-// ------------
+  // Manage Moves
+  // ------------
 
   function clearMoves() {
     numberOfMoves = 0;
@@ -87,8 +93,8 @@ function prepareGame() {
     moves.textContent = numberOfMoves;
   }
 
-// Manage stars
-// ------------
+  // Manage stars
+  // ------------
 
   function clearStars() {
     numberOfStars = 3;
@@ -141,15 +147,32 @@ function prepareGame() {
     renderStars();
   }
 
-// Manage timer
-// ------------
+  // Manage timer
+  // ------------
+  function clearTimer() {
+    clearInterval(timer);
+    console.log(`total time: ${time}`);
+  }
+
+  function createTimer() {
+    let timerStart = new Date();
+
+    timer = setInterval(() => {
+
+      let totalSeconds = Math.floor((new Date() - timerStart)/1000);
+      let minutes = (Math.floor(totalSeconds/60));
+      let seconds = (totalSeconds % 60);
+      let secondsInString = (seconds < 10 ? `0${seconds}` : seconds );
+      time = `${minutes}:${secondsInString}`;
+      stopWatch.textContent = time;
+
+    },1000);
+
+  }
 
 
-
-
-
-// Manage matched cards
-// --------------------
+  // Manage matched cards
+  // --------------------
 
   function clearMacthed() {
     matched = 0;
@@ -161,6 +184,7 @@ function prepareGame() {
 
   function finishGame(){
     completeModal.classList.add('show');
+    timeTaken.textContent = time;
   }
 
   function startGame(){
@@ -176,8 +200,8 @@ function prepareGame() {
   }
 
 
-// Manage cards
-// ------------
+  // Manage cards
+  // ------------
 
   function cardsMatched() {
     for( let opened of currentlyOpened) {
@@ -276,23 +300,23 @@ function htmlLoad() {
 document.addEventListener("DOMContentLoaded", htmlLoad);
 
 /*
-  Check List
-  ==========
-  / shuffle cards
-  / reset button
-  / move counter
-  / Create a list that holds all of your cards
-  / show cards - add event listener
-  / manage open cards - max 2
-  / compare/ test cards
-  / match card state
-  / track move counter
-  / update stars
-  / reset stars
-  / track score
-  / display mesage when complete
-  - track time to complete and return total time on completion
-  / congrat modal
+Check List
+==========
+/ shuffle cards
+/ reset button
+/ move counter
+/ Create a list that holds all of your cards
+/ show cards - add event listener
+/ manage open cards - max 2
+/ compare/ test cards
+/ match card state
+/ track move counter
+/ update stars
+/ reset stars
+/ track score
+/ display mesage when complete
+- track time to complete and return total time on completion
+/ congrat modal
 */
 
 /*

@@ -94,8 +94,11 @@ h1 {
  */
 
 .score-panel {
-    text-align: left;
-    width: 345px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 400px;
     margin-bottom: 10px;
 }
 
@@ -143,4 +146,8 @@ h1 {
 
 .complete.show {
   display: block;
+}
+
+.moves::after {
+  content: " Moves";
 }
