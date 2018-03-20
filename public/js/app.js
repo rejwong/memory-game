@@ -4,9 +4,9 @@ function prepareGame() {
   // Variables
   const deckWrapper = document.querySelector('.game-area');
   const deck = document.querySelector('.deck');
-  const cards = [...(document.querySelectorAll('.card'))];
   const moves = document.querySelector('.moves');
   const completeModal = document.querySelector('.complete');
+  const welcomeModal = document.querySelector('.welcome');
   const scorePanel = document.querySelector('.score-panel');
   const stars = document.querySelector('.stars');
   const stopWatch = document.querySelector('.timer');
@@ -18,6 +18,18 @@ function prepareGame() {
   let numberOfStars = 3;
   let timer;
   let time = `0:00`;
+
+  let cards = [...(document.querySelectorAll('.card'))];
+  let cardTypes = [
+    'diamond',
+    'paper-plane-o',
+    'anchor',
+    'bolt',
+    'cube',
+    'leaf',
+    'bicycle',
+    'bomb'
+  ];
 
 
   // Manage game and randomising
@@ -37,7 +49,7 @@ function prepareGame() {
     return array;
   }
 
-  function randomiseCards(){
+  function randomiseCards() {
     let randomCards = shuffle(cards);
 
     // append new card order to deck
@@ -49,12 +61,60 @@ function prepareGame() {
     deckWrapper.appendChild(deck);
   }
 
-  function restartGame(){
+  // create cards using html template
+  function renderCards(cardType) {
+    let cardLi = document.createElement('li');
+    cardLi.classList.add('card');
+    cardLi.setAttribute('data-card-type', cardType);
+
+    let cardI = document.createElement('i');
+    cardI.classList.add('fa', `fa-${cardType}`);
+
+    cardLi.appendChild(cardI);
+    cards.push(cardLi);
+  }
+
+  function createCards() {
     // remove deck from DOM so that we do not have remove each individual card causing re-rendering.
     deckWrapper.removeChild(deck);
 
+    // removes cards from <ul.deck> element
+    for (let card of cards) {
+      card.remove();
+    }
+
+    // clear cards array of saved DOM nodes;
+    cards = [];
+
+    for( let cardType of cardTypes) {
+      // create new cards
+      // x2 to create pairs
+      renderCards(cardType);
+      renderCards(cardType);
+    }
+
+  }
+
+  // Only for startup
+  // to create the cards
+  function createGame() {
+
+    createCards();
+    randomiseCards();
+
+    showWelcome();
+  }
+
+  // reuse existing cards and shuffle them
+  function restartGame() {
+
+    // remove deck from DOM so that we do not have remove each individual card causing re-rendering.
+    deckWrapper.removeChild(deck);
+
+    // removes cards from <ul.deck> element
     // remove all card states
-    for( let card of cards) {
+    for (let card of cards) {
+      card.remove();
       card.classList.remove('open', 'match', 'show');
     }
 
@@ -63,15 +123,30 @@ function prepareGame() {
 
     // reset tackers
     clearMoves();
-    clearMacthed();
+    clearMatched();
     clearStars();
-    startGame();
+    clearModal();
 
     clearTimer();
     createTimer();
-
-    console.log('Game restarted!');
+    hideWelcome();
   }
+
+
+  // Mange welcome modal
+  // -------------------
+
+  function showWelcome() {
+    welcomeModal.classList.add('show');
+  }
+
+  function hideWelcome() {
+    welcomeModal.classList.remove('show');
+  }
+
+
+  // Manage reset
+  // ------------
 
   function createResetButton() {
     let resetButtons = document.querySelectorAll('.restart');
@@ -79,6 +154,7 @@ function prepareGame() {
       button.addEventListener('click', restartGame)
     }
   }
+
 
   // Manage Moves
   // ------------
@@ -92,6 +168,7 @@ function prepareGame() {
     numberOfMoves ++;
     moves.textContent = numberOfMoves;
   }
+
 
   // Manage stars
   // ------------
@@ -147,11 +224,11 @@ function prepareGame() {
     renderStars();
   }
 
+
   // Manage timer
   // ------------
   function clearTimer() {
     clearInterval(timer);
-    console.log(`total time: ${time}`);
   }
 
   function createTimer() {
@@ -161,7 +238,7 @@ function prepareGame() {
 
       let totalSeconds = Math.floor((new Date() - timerStart)/1000);
       let minutes = (Math.floor(totalSeconds/60));
-      let seconds = (totalSeconds % 60);
+      let seconds = (totalSeconds % 60); // 2
       let secondsInString = (seconds < 10 ? `0${seconds}` : seconds );
       time = `${minutes}:${secondsInString}`;
       stopWatch.textContent = time;
@@ -174,7 +251,7 @@ function prepareGame() {
   // Manage matched cards
   // --------------------
 
-  function clearMacthed() {
+  function clearMatched() {
     matched = 0;
   }
 
@@ -184,10 +261,11 @@ function prepareGame() {
 
   function finishGame(){
     completeModal.classList.add('show');
+    clearTimer();
     timeTaken.textContent = time;
   }
 
-  function startGame(){
+  function clearModal(){
     completeModal.classList.remove('show');
   }
 
@@ -257,7 +335,7 @@ function prepareGame() {
       let thisCard = e.target;
 
       // check if this card is not open already
-      if(thisCard != currentlyOpened[0] && thisCard != currentlyOpened[0]) {
+      if(thisCard != currentlyOpened[0]) {
         // Add card to list of currently opened cards
         updateOpenedList(thisCard);
 
@@ -266,12 +344,7 @@ function prepareGame() {
 
         // check to see if there is a match
         checkCards();
-      } else {
-        console.log('card is already open!');
       }
-
-    } else {
-      return;
     }
   }
 
@@ -287,12 +360,11 @@ function prepareGame() {
   createResetButton();
   setupCardToggle();
 
-  restartGame();
+  createGame();
   // END of prepareGame
 };
 
 function htmlLoad() {
-  console.log("DOM fully loaded and parsed");
   prepareGame();
 }
 
@@ -315,7 +387,7 @@ Check List
 / reset stars
 / track score
 / display mesage when complete
-- track time to complete and return total time on completion
+/ track time to complete and return total time on completion
 / congrat modal
 */
 

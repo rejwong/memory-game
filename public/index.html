@@ -11,10 +11,15 @@
 <body>
 
   <main>
-    <section class="complete">
+    <section class="complete modal">
       <h1>Congrats!</h1>
       <p>Time taken: <span class="time-taken"></span></p>
       <button type="button" class="restart complete-button">Start new game</button>
+    </section>
+
+    <section class="welcome modal show">
+      <h1>Card matching game</h1>
+      <button type="button" class="start-game restart complete-button">Start game</button>
     </section>
 
     <div class="container">
@@ -25,7 +30,7 @@
       <section class="score-panel">
         <ul class="stars"></ul>
         <span class="moves">0 </span>
-        <span class="timer">00:00</span>
+        <span class="timer">0:00</span>
         <button class="restart">
           <i class="fa fa-repeat"></i>
         </button>
