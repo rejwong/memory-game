@@ -3,25 +3,25 @@
 ## Table of Contents
 
 * [Instructions](#instructions)
-* [Contributing](#contributing)
+* [Getting started](#getting started)
+* [Notes](#notes)
 
 ## Instructions
+The HTML, CSS, and JavaScript files provided in the Udacity starter kit have been modified to create an interactive game. The project instructions were provided in the [Udacity Classroom](https://classroom.udacity.com/me).
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
-
-To get started, open `js/app.js` and start building out the app's functionality
-
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
-
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+The player of the game is required to match the icons into pairs as quickly as possible. The number of moves a player makes is recorded, and the number of stars changes accordingly (the number decreases as the number of moves increase). As well as the number of moves and stars, the time it takes to complete the game is recorded.  
 
 ## Getting started
-- `npm i `
-- `npm start`
+Install NPM packages using `npm install`
+
+To run local server use: `npm start`
+
+Go to `localhost:3000` in your browser
 
 ## Notes
-I reused some files from the provious project such as the local server to get up and running as quickly as possible. 
+Some files from the previous project (Portfolio) were reused to get up and running quicky, e.g. the use of `ExpressJS` to set up the local server. 
+
+This project was created as part of my Udacity Front-End Nanodegree, which was awarded through a Google Developer Scholarship. Further functionality and styling may be added and the README will be updated accordingly.
+
+## License
+ISC

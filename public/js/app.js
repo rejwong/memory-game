@@ -191,7 +191,7 @@ function prepareGame() {
 
   function renderStars() {
 
-    // get a refernce to all the current stars
+    // get a reference to all the current stars
     let currentStars = document.querySelectorAll('.star');
     // remove the stars element from the DOM
     stars.remove();
@@ -371,7 +371,7 @@ function htmlLoad() {
 document.addEventListener("DOMContentLoaded", htmlLoad);
 
 /*
-Check List
+Checklist
 ==========
 / shuffle cards
 / reset button
