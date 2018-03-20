@@ -98,14 +98,16 @@ h1 {
   margin-bottom: 10px;
 }
 
-.score-panel .stars {
+.score-panel .stars,
+.final-stars {
   margin: 0;
   padding: 0;
   display: inline-block;
   margin: 0 5px 0 0;
 }
 
-.score-panel .stars li {
+.score-panel .stars li,
+.final-stars .star {
   list-style: none;
   display: inline-block;
 }
@@ -150,4 +152,8 @@ h1 {
 
 .moves::after {
   content: " Moves";
+}
+
+.stars-wrapper {
+  padding-bottom: 1rem;
 }

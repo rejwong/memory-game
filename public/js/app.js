@@ -11,6 +11,8 @@ function prepareGame() {
   const stars = document.querySelector('.stars');
   const stopWatch = document.querySelector('.timer');
   const timeTaken = document.querySelector('.time-taken');
+  const finalStars = document.querySelector('.final-stars');
+  const starsWrapper = document.querySelector('.stars-wrapper');
 
   let matched = 0;
   let numberOfMoves = 0;
@@ -125,6 +127,7 @@ function prepareGame() {
     clearMoves();
     clearMatched();
     clearStars();
+    clearFinalStars();
     clearModal();
 
     clearTimer();
@@ -192,7 +195,7 @@ function prepareGame() {
   function renderStars() {
 
     // get a reference to all the current stars
-    let currentStars = document.querySelectorAll('.star');
+    let currentStars = document.querySelectorAll('.stars .star');
     // remove the stars element from the DOM
     stars.remove();
 
@@ -210,6 +213,38 @@ function prepareGame() {
 
     // insert ".stars" before the first child moves
     scorePanel.insertBefore(stars, moves);
+  }
+
+  // render stars at the end of the game in the  modal
+  function renderFinalStars() {
+
+    // remove ul.final-stars from DOM
+    finalStars.remove();
+
+    // get number of stars and add them to <ul>
+    let i = numberOfStars;
+    while(i != 0) {
+      finalStars.appendChild(createStar());
+      i--;
+    }
+
+    // append finalStars <ul> to DOM
+    starsWrapper.appendChild(finalStars);
+  }
+
+  // on game restart clear stars from modal
+  function clearFinalStars() {
+    let modalStars = document.querySelectorAll('.final-stars li');
+    console.log(modalStars);
+
+    // remove final stars <ul> from DOM
+    finalStars.remove();
+
+    for( let modalStar of modalStars) {
+      modalStar.remove();
+    }
+
+    starsWrapper.appendChild(finalStars);
   }
 
   function updateStars() {
@@ -261,7 +296,9 @@ function prepareGame() {
   function finishGame(){
     completeModal.classList.add('show');
     clearTimer();
+    renderFinalStars();
     timeTaken.textContent = time;
+
   }
 
   function clearModal(){
