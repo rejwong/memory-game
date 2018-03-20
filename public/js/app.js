@@ -232,18 +232,17 @@ function prepareGame() {
   }
 
   function createTimer() {
-    let timerStart = new Date();
+    let totalTime = 0;
 
     timer = setInterval(() => {
-
-      let totalSeconds = Math.floor((new Date() - timerStart)/1000);
-      let minutes = (Math.floor(totalSeconds/60));
-      let seconds = (totalSeconds % 60); // 2
+      totalTime ++;
+      let minutes = Math.floor(totalTime/60);
+      let seconds = totalTime % 60;
       let secondsInString = (seconds < 10 ? `0${seconds}` : seconds );
       time = `${minutes}:${secondsInString}`;
       stopWatch.textContent = time;
 
-    },1000);
+    }, 1000);
 
   }
 
